@@ -10,6 +10,8 @@ export class EmployeeComponent implements OnInit {
 
   constructor(public service: EmployeeService) { }
 
+  submitted = false;
+
   departments = [
     {id: 1, value: 'Deparment #1'},
     {id: 2, value: 'Deparment #2'},
@@ -27,7 +29,25 @@ export class EmployeeComponent implements OnInit {
   onSubmit() {
     if (this.service.form.valid) {
       //this.service.insertEmployee(this.service.form.value);
-      this.service.addEmployee(this.service.form.value);
+      // For Firebase
+      //this.service.addEmployee(this.service.form.value);
+
+      const data = {
+        // Selective fields
+        fullName: this.service.form.value.fullName,
+        email: this.service.form.value.email
+      };
+
+      // For MySQL
+      this.service.create(data).subscribe(
+        response => {
+          console.log(response);
+          this.submitted = true;
+        },
+        error => {
+          console.log(error);
+        });
+
       this.service.form.reset();
       this.service.initializeFormGroup();
     }
