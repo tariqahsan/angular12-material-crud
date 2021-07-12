@@ -3,25 +3,28 @@ import { Component, Input, OnInit } from '@angular/core';
 import { map, tap } from 'rxjs/operators';
 import { Department } from 'src/app/shared/Department';
 import { DepartmentService } from 'src/app/shared/department.service';
-import { EmployeeService } from 'src/app/shared/employee.service';
+//import { UserService } from 'src/app/shared/user.service';
+import { UserService } from 'src/app/shared/user.service';
 import { from, Observable } from 'rxjs';
 import { NotificationService } from 'src/app/shared/notification.service';
 
 @Component({
-  selector: 'app-employee',
-  templateUrl: './employee.component.html',
-  styleUrls: ['./employee.component.css']
+  selector: 'app-user',
+  templateUrl: './user.component.html',
+  styleUrls: ['./user.component.css']
 })
-export class EmployeeComponent implements OnInit {
+export class UserComponent implements OnInit {
+  constructor(public userService: UserService, public departmentService: DepartmentService, public notificationService: NotificationService, public _http: HttpClient) { }
 
-  constructor(public service: EmployeeService, public departmentService: DepartmentService, public notificationService: NotificationService, public _http: HttpClient) { }
+  ngOnInit() {
+    this.departments$ = this.departmentService.getAll();
+    console.log("LIST OF DEPARMENTS : " + this.departments$);
+  }
 
-  submitted = false;
+submitted = false;
 
   //@Input() departments: Department[] = [];
 
-
- 
   // departments = [
   //   {id: 1, value: 'Deparment #1'},
   //   {id: 2, value: 'Deparment #2'},
@@ -53,10 +56,7 @@ export class EmployeeComponent implements OnInit {
   //     );
   // }
 
-  ngOnInit() {
-    this.departments$ = this.departmentService.getAll();
-    console.log("LIST OF DEPARMENTS : " + this.departments$);
-  }
+
 
 //   ngOnInit() {
 //     // Create an Observable out of a promise
@@ -70,26 +70,31 @@ export class EmployeeComponent implements OnInit {
 //   }
 
   onClear() {
-    this.service.form.reset();
-    this.service.initializeFormGroup();
+    this.userService.form.reset();
+    this.userService.initializeFormGroup();
   }
 
   onSubmit() {
-    if (this.service.form.valid) {
-      //this.service.insertEmployee(this.service.form.value);
+    if (this.userService.form.valid) {
+      //this.userservice.insertEmployee(this.userservice.form.value);
 
       // For Firebase
-      this.service.addEmployee(this.service.form.value);
-      console.log("department --->  " + this.service.form.value.department);
+      // this.userService.addEmployee(this.userService.form.value);
+      // console.log("department --->  " + this.userService.form.value.department);
       const data = {
         // Selective fields
-        fullName: this.service.form.value.fullName,
-        email: this.service.form.value.email,
-        department: this.service.form.value.department
+        firstName: this.userService.form.value.firstName,
+        middleName: this.userService.form.value.middleName,
+        lastName: this.userService.form.value.lastName,
+        email: this.userService.form.value.email,
+        phone: this.userService.form.value.phone,
+        address: this.userService.form.value.address
+        //department: this.userService.form.value.department
       };
 
       // For MySQL
-      this.service.create(data).subscribe(
+      // this.userService.create(data).subscribe(
+        this.userService.create(this.userService.form.value).subscribe(
         response => {
           console.log(response);
           this.submitted = true;
@@ -98,8 +103,8 @@ export class EmployeeComponent implements OnInit {
           console.log(error);
         });
 
-      this.service.form.reset();
-      //this.service.initializeFormGroup();
+      this.userService.form.reset();
+      //this.userService.initializeFormGroup();
       this.notificationService.success(':: Submitted successfully');
     }
   }
@@ -110,3 +115,4 @@ interface departments {
   id: number,
   name: string
 }
+

@@ -16,16 +16,20 @@ const baseUrl = 'http://localhost:8686/api/v1/employee';
 export class EmployeeService {
 
   private dbPath = '/employees';
-
   employeeList!: AngularFireList<Employee>;
 
-  // For Firebase
+  // For Firebase consructor
   // constructor(private firebase: AngularFireDatabase) {
   //   this.employeeList = firebase.list(this.dbPath);
   // }
 
-  // For MySQL
-  constructor(private http: HttpClient) { }
+  // Constructor for both Firebase and HttpClient
+  constructor(private firebase: AngularFireDatabase, private http: HttpClient) {
+    this.employeeList = firebase.list(this.dbPath);
+  }
+
+  // For MySQL constructor
+  //constructor(private http: HttpClient) { }
 
   //constructor(private firebase: AngularFireDatabase) { }
 

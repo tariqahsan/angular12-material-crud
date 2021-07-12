@@ -34,3 +34,24 @@ mat-radio-group mat-radio-button {
 .button-row button{
     margin: 5px;
 }
+
+/* notification */
+snack-bar-container.success {
+    background-color:darkseagreen;
+    color:aliceblue;
+}
+
+snack-bar-container.notification simple-snack-bar {
+    font-size: 18px !important;
+    font-weight: bold;
+}
+
+.hide{
+    display: none;
+}
+
+/* mat-table */
+mat-footer-row mat-footer-cell{
+    justify-content: center;
+    font-style: italic;
+}
