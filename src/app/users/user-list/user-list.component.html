@@ -6,12 +6,26 @@
         User's API rate limit has been reached. It will be reset in one minute.
       </div>
     </div> -->
-    
+
+    <!-- <div class="search-div">
+      <button mat-raised-button (click)="onCreate()">
+        <mat-icon>add</mat-icon>Create
+      </button>
+      <mat-form-field class="search-form-field" floatLabel="never">
+        <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="off" (keyup)="applyFilter()">
+        <button mat-button matSuffix mat-icon-button aria-label="Clear"*ngIf="searchKey"  (click)="onSearchClear()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div> -->
     
     <div class="example-table-container">
+      <button mat-raised-button (click)="onCreate()">
+        <mat-icon>add</mat-icon>Create
+      </button>
       <mat-form-field>
         <mat-label>Filter</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Search" #input>
       </mat-form-field>
       
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>

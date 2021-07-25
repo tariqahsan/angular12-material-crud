@@ -2,13 +2,14 @@ import {AfterViewInit, Component, ViewChild, OnInit} from '@angular/core';
 //import { User } from 'src/app/shared/User';
 import { UserService } from 'src/app/shared/user.service';
 import { MatTableDataSource } from '@angular/material/table';
-
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import {HttpClient} from '@angular/common/http';
 
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort, SortDirection} from '@angular/material/sort';
 import {merge, Observable, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
+import { UserComponent } from '../user/user.component';
 
 /**
  * @title Table retrieving data through HTTP
@@ -35,7 +36,7 @@ import {catchError, map, startWith, switchMap} from 'rxjs/operators';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private _httpClient: HttpClient, public service: UserService) {
+  constructor(private _httpClient: HttpClient, public service: UserService, private dialog: MatDialog,) {
     
   }
 
@@ -112,6 +113,15 @@ import {catchError, map, startWith, switchMap} from 'rxjs/operators';
   //     this.dataSource.paginator.firstPage();
   //   }
   // }
+
+  onCreate() {
+    this.service.initializeFormGroup();
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '70%';
+    this.dialog.open(UserComponent, dialogConfig);
+  }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

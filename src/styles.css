@@ -27,6 +27,10 @@ form.normal-form {
     padding-bottom: 10px;
 }
 
+.add-top-padding {
+    padding-top: 10px;
+}
+
 mat-radio-group mat-radio-button {
     margin-left: 5px;
 }
